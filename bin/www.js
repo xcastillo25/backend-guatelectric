@@ -1,5 +1,7 @@
+#!/usr/bin/env node
+
 const http = require('http');
-const app = require('../app');
+const app = require('../app'); // Ajusta el camino si tu archivo principal no se llama 'app.js'
 const fs = require('fs');
 
 const port = normalizePort(process.env.PORT || '8020');
@@ -7,7 +9,7 @@ app.set('port', port);
 
 const httpServer = http.createServer(app);
 httpServer.listen(port, '0.0.0.0', () => {
-    console.log(`HTTP Server running on http://0.0.0.0:${port}/`)
+    console.log(`HTTP Server running on http://0.0.0.0:${port}/`);
 });
 
 httpServer.on('error', onError);

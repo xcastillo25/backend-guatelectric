@@ -7,5 +7,3 @@ module.exports = (app)=>{
     app.delete('/api/clientes/:idcliente', clientesController.eliminarCliente); 
     app.put('/api/estado-clientes/:idcliente',clientesController.cambiarEstadoCliente); 
 }
-
-

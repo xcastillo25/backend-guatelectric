@@ -22,7 +22,7 @@ app.use((req, res, next) => {
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 
     if (req.method === 'OPTIONS') {
-            res.sendStatus(200);
+        res.sendStatus(200);
     } else {
         next();
     }
@@ -59,4 +59,3 @@ app.options('*', (req, res) => {
 });
 
 module.exports = app;
-
