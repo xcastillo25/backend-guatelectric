@@ -1,10 +1,19 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');  // Añadir esta línea para importar cors
 const app = express();
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+// Configuración CORS
+app.use(cors({
+    origin: 'http://dy491gmo7el38.cloudfront.net',
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+    allowedHeaders: ['Authorization', 'X-API-KEY', 'Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Access-Control-Allow-Request-Method'],
+    credentials: true
+}));
 
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && 'body' in err && err.status === 413) {
@@ -14,28 +23,7 @@ app.use((err, req, res, next) => {
     }
 });
 
-// Cabeceras CORS
-app.use((req, res, next) => {
-    
-    // res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-    res.header('Access-Control-Allow-Origin', 'http://dy491gmo7el38.cloudfront.net');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(200);
-    } else {
-        next();
-    }
-});
-
-//ESPACIO PARA LAS SOLICITUDES
-app.get('/', (req, res) => {
-    res.status(200).send({ message: 'Bienvenido a Geoproyectos' });
-});
-//
-
+// Rutas y otras configuraciones
 require('./server/routes/empresas')(app);
 require('./server/routes/empleados')(app);
 require('./server/routes/photos')(app);
